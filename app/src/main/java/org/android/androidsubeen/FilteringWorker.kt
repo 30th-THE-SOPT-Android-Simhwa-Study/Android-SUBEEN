@@ -7,13 +7,13 @@ import androidx.work.WorkerParameters
 
 class FilteringWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
     override fun doWork(): Result {
-        try {
+        return try {
             for (i in 0 until 300) {
                 Log.i("kimsubeen", "filteringwoker $i")
             }
-            return Result.success()
+             Result.success()
         } catch (e: Exception) {
-            return Result.failure()
+             Result.failure()
         }
     }
 }

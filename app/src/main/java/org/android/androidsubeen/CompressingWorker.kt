@@ -8,13 +8,13 @@ import androidx.work.WorkerParameters
 class CompressingWorker(context: Context, params: WorkerParameters) : Worker(context, params) {
 
     override fun doWork(): Result {
-        try {
+        return try {
             for (i in 0..100) {
                 Log.i("kimsubeen", "compressingworker $i")
             }
-            return Result.success()
+             Result.success()
         } catch (e: Exception) {
-            return Result.failure()
+             Result.failure()
         }
     }
 }

@@ -12,16 +12,16 @@ class DownloadingWorker(context: Context, params: WorkerParameters) : Worker(con
 
     @SuppressLint("SimpleDateFormat")
     override fun doWork(): Result {
-        try {
+        return try {
             for (i in 0..3000) {
                 Log.i("kimsubeen", "downloading $i")
             }
             val time = SimpleDateFormat("dd/MM/yyyy hh:mm:ss")
             val currentDate = time.format(Date())
             Log.i("kimsubeen-date", "download-date $currentDate")
-            return Result.success()
+             Result.success()
         } catch (e: Exception) {
-            return Result.failure()
+             Result.failure()
         }
     }
 }
