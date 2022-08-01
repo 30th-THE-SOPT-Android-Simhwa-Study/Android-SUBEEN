@@ -31,6 +31,10 @@ class ThreadActivity : AppCompatActivity() {
             binding.ivProfile.setImageResource(R.drawable.ic_back)
             BackgroundThread2().start()
         }
+
+        binding.ivProfile.setOnClickListener {
+            BackgroundThread3().start()
+        }
     }
 
     private fun getBitmapFromURL(src: String): Bitmap? {
@@ -49,14 +53,15 @@ class ThreadActivity : AppCompatActivity() {
 
     inner class MyHandler : Handler(Looper.getMainLooper()) {
         override fun handleMessage(msg: Message) {
-            // 다른 Thread에서 전달받은 Message 처리
             val bundle = msg.data
             val image = bundle.getString("bitmap")
+            binding.tvCount.text = bundle.getInt("count").toString()
             image?.let {
                 binding.ivProfile.post {
                     binding.ivProfile.setImageBitmap(convertBitMap().StringToBitmap(it))
                 }
             }
+
         }
     }
 
@@ -92,11 +97,16 @@ class ThreadActivity : AppCompatActivity() {
 
     inner class BackgroundThread3 : Thread() {
         override fun run() {
-            //implement Count
-            val bundle = Bundle()
-            val message = myHandler.obtainMessage()
-            myHandler.sendMessage(message)
-
+            var count = 0
+            while (isAlive) {
+                val bundle = Bundle()
+                val message = myHandler.obtainMessage()
+                count++
+                bundle.putInt("count",count)
+                message.data = bundle
+                SystemClock.sleep(1000)
+                myHandler.sendMessage(message)
+            }
         }
     }
 }
